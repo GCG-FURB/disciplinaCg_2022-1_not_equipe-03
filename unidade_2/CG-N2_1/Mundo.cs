@@ -32,6 +32,7 @@ namespace gcgcg
     int mouseX, mouseY;   //TODO: achar método MouseDown para não ter variável Global
     private bool mouseMoverPto = false;
     private Retangulo obj_Retangulo;
+    private Circulo circulo_obj;
 #if CG_Privado
     private Privado_SegReta obj_SegReta;
     private Privado_Circulo obj_Circulo;
@@ -44,12 +45,30 @@ namespace gcgcg
 
       Console.WriteLine(" --- Ajuda / Teclas: ");
       Console.WriteLine(" [  H     ] mostra teclas usadas. ");
-
       objetoId = Utilitario.charProximo(objetoId);
-      obj_Retangulo = new Retangulo(objetoId, null, new Ponto4D(50, 50, 0), new Ponto4D(150, 150, 0));
-      obj_Retangulo.ObjetoCor.CorR = 255; obj_Retangulo.ObjetoCor.CorG = 0; obj_Retangulo.ObjetoCor.CorB = 255;
-      objetosLista.Add(obj_Retangulo);
-      objetoSelecionado = obj_Retangulo;
+
+      // LINHA VERTICAL
+      GL.Begin(PrimitiveType.Line);
+
+      for (int i = 300; i < 500; i++)
+      {
+        GL.Vertex2(300, i);
+      }
+
+      GL.End();
+
+
+      // CIRCULO
+
+      circulo_obj = new Circulo(objetoId, null, new Ponto4D(300, 300), (double) 100);
+      circulo_obj.ObjetoCor.CorR = 255; 
+      circulo_obj.ObjetoCor.CorG = 255;
+      circulo_obj.ObjetoCor.CorB = 0;
+
+      circulo_obj.PrimitivaTipo = PrimitiveType.Points;
+
+      objetosLista.Add(circulo_obj);
+      objetoSelecionado = circulo_obj;
 
 #if CG_Privado
       objetoId = Utilitario.charProximo(objetoId);
