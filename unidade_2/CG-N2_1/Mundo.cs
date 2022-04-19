@@ -33,6 +33,7 @@ namespace gcgcg
     private bool mouseMoverPto = false;
     private Retangulo obj_Retangulo;
     private Circulo circulo_obj;
+    private Linha linha_obj, linha_obj2;
 #if CG_Privado
     private Privado_SegReta obj_SegReta;
     private Privado_Circulo obj_Circulo;
@@ -47,19 +48,24 @@ namespace gcgcg
       Console.WriteLine(" [  H     ] mostra teclas usadas. ");
       objetoId = Utilitario.charProximo(objetoId);
 
-      // LINHA VERTICAL
-      GL.Begin(PrimitiveType.Line);
+      // LINHA VERTICAL VERDE
+      linha_obj = new Linha(objetoId, null, new Ponto4D(300, 300), 200, true);
+      linha_obj.ObjetoCor.CorR = 0;
+      linha_obj.ObjetoCor.CorG = 255;
+      linha_obj.ObjetoCor.CorB = 0;
+      
+      objetosLista.Add(linha_obj);
 
-      for (int i = 300; i < 500; i++)
-      {
-        GL.Vertex2(300, i);
-      }
+      // LINHA HORIZONTAL VERMELHA
+      linha_obj2 = new Linha(objetoId, null, new Ponto4D(300, 300), 200);
+      linha_obj2.ObjetoCor.CorR = 255;
+      linha_obj2.ObjetoCor.CorG = 0;
+      linha_obj2.ObjetoCor.CorB = 0;
 
-      GL.End();
-
+      objetosLista.Add(linha_obj2);
 
       // CIRCULO
-
+      objetoId = Utilitario.charProximo(objetoId);
       circulo_obj = new Circulo(objetoId, null, new Ponto4D(300, 300), (double) 100);
       circulo_obj.ObjetoCor.CorR = 255; 
       circulo_obj.ObjetoCor.CorG = 255;
@@ -71,17 +77,17 @@ namespace gcgcg
       objetoSelecionado = circulo_obj;
 
 #if CG_Privado
-      objetoId = Utilitario.charProximo(objetoId);
-      obj_SegReta = new Privado_SegReta(objetoId, null, new Ponto4D(50, 150), new Ponto4D(150, 250));
-      obj_SegReta.ObjetoCor.CorR = 255; obj_SegReta.ObjetoCor.CorG = 255; obj_SegReta.ObjetoCor.CorB = 0;
-      objetosLista.Add(obj_SegReta);
-      objetoSelecionado = obj_SegReta;
+      // objetoId = Utilitario.charProximo(objetoId);
+      // obj_SegReta = new Privado_SegReta(objetoId, null, new Ponto4D(50, 150), new Ponto4D(150, 250));
+      // obj_SegReta.ObjetoCor.CorR = 255; obj_SegReta.ObjetoCor.CorG = 255; obj_SegReta.ObjetoCor.CorB = 0;
+      // objetosLista.Add(obj_SegReta);
+      // objetoSelecionado = obj_SegReta;
 
-      objetoId = Utilitario.charProximo(objetoId);
-      obj_Circulo = new Privado_Circulo(objetoId, null, new Ponto4D(100, 300), 50);
-      obj_Circulo.ObjetoCor.CorR = 0; obj_Circulo.ObjetoCor.CorG = 255; obj_Circulo.ObjetoCor.CorB = 255;
-      objetosLista.Add(obj_Circulo);
-      objetoSelecionado = obj_Circulo;
+      // objetoId = Utilitario.charProximo(objetoId);
+      // obj_Circulo = new Privado_Circulo(objetoId, null, new Ponto4D(100, 300), 50);
+      // obj_Circulo.ObjetoCor.CorR = 0; obj_Circulo.ObjetoCor.CorG = 255; obj_Circulo.ObjetoCor.CorB = 255;
+      // objetosLista.Add(obj_Circulo);
+      // objetoSelecionado = obj_Circulo;
 #endif
       GL.ClearColor(0.5f, 0.5f, 0.5f, 1.0f);
     }
