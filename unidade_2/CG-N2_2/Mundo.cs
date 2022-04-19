@@ -120,18 +120,29 @@ namespace gcgcg
         Utilitario.AjudaTeclado();
       else if (e.Key == Key.Escape)
         Exit();
-      else if (e.Key == Key.E)
+      else if (e.Key == Key.E) {
+        camera.PanEsquerda();
+      }
+      else if (e.Key == Key.D)
       {
-        Console.WriteLine("--- Objetos / Pontos: ");
-        for (var i = 0; i < objetosLista.Count; i++)
-        {
-          Console.WriteLine(objetosLista[i]);
-        }
+        camera.PanDireita();
+      }
+      else if (e.Key == Key.C)
+      {
+          camera.PanCima();
+      }
+      else if (e.Key == Key.B)
+      {
+          camera.PanBaixo();
+      }
+      else if (e.Key == Key.I)
+      {
+          camera.ZoomIn();
       }
       else if (e.Key == Key.O)
-        bBoxDesenhar = !bBoxDesenhar;
-      else if (e.Key == Key.V)
-        mouseMoverPto = !mouseMoverPto;   //TODO: falta atualizar a BBox do objeto
+      {
+          camera.ZoomOut();
+      }
       else
         Console.WriteLine(" __ Tecla não implementada.");
     }
