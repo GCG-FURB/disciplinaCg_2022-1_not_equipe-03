@@ -17,10 +17,20 @@ namespace gcgcg
         {
             GL.Begin(base.PrimitivaTipo);
 
-            foreach (Ponto4D pto in this.pontosLista)
-            {
-                GL.Vertex2(pto.X, pto.Y);
-            }
+            // foreach (Ponto4D pto in this.pontosLista)
+            // {
+            //     GL.Vertex2(pto.X, pto.Y);
+            // }
+            GL.Color3(1.0f, 1.0f, 0.0f);
+            GL.Vertex2(this.pontosLista[0].X, this.pontosLista[0].Y);
+            GL.Color3(0.0f, 1.0f, 1.0f);
+            GL.Vertex2(this.pontosLista[1].X, this.pontosLista[1].Y);
+            GL.Color3(1.0f, 0.0f, 1.0f);
+            GL.Vertex2(this.pontosLista[2].X, this.pontosLista[2].Y);
+            GL.Color3(1.0f, 0.0f, 0.0f);
+            GL.Vertex2(this.pontosLista[3].X, this.pontosLista[3].Y);
+
+
             GL.End();
         }
     }

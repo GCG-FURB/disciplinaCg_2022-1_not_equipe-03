@@ -33,6 +33,14 @@ namespace gcgcg
         private bool mouseMoverPto = false;
         private Retangulo obj_Retangulo;
         private Circulo circulo_obj;
+        private Ponto4D pto1, pto2, pto3, pto4;
+        private PrimitivasGeometricas primitivasGeometricas;
+        private int primitivaIndex = 0;
+
+        private SrPalito sr_palito;
+
+        private List<PrimitiveType> listaDePrimitivos = new List<PrimitiveType>();
+
 #if CG_Privado
     private Privado_SegReta obj_SegReta;
     private Privado_Circulo obj_Circulo;
@@ -47,18 +55,14 @@ namespace gcgcg
             Console.WriteLine(" [  H     ] mostra teclas usadas. ");
             objetoId = Utilitario.charProximo(objetoId);
 
-            // CIRCULO
-            objetoId = Utilitario.charProximo(objetoId);
-            circulo_obj = new Circulo(objetoId, null, new Ponto4D(0, 0), (double)100);
-            circulo_obj.ObjetoCor.CorR = 255;
-            circulo_obj.ObjetoCor.CorG = 255;
-            circulo_obj.ObjetoCor.CorB = 0;
-            circulo_obj.PrimitivaTamanho = 3;
+            sr_palito = new SrPalito(objetoId, null, new Ponto4D(0, 0), 45, 100);
+            sr_palito.ObjetoCor.CorR = 0;
+            sr_palito.ObjetoCor.CorG = 0;
+            sr_palito.ObjetoCor.CorB = 0;
+            sr_palito.PrimitivaTamanho = 3;
 
-            circulo_obj.PrimitivaTipo = PrimitiveType.Points;
-
-            objetosLista.Add(circulo_obj);
-            objetoSelecionado = circulo_obj;
+            objetosLista.Add(sr_palito);
+            objetoSelecionado = sr_palito;
 
 #if CG_Privado
       // objetoId = Utilitario.charProximo(objetoId);
@@ -102,31 +106,21 @@ namespace gcgcg
         {
             if (e.Key == Key.H)
                 Utilitario.AjudaTeclado();
-            else if (e.Key == Key.Escape)
-                Exit();
-            else if (e.Key == Key.E)
+            else if (e.Key == Key.A)
             {
-                camera.PanEsquerda();
+                sr_palito.MenosRaio();
             }
-            else if (e.Key == Key.D)
+            else if (e.Key == Key.S)
             {
-                camera.PanDireita();
+                sr_palito.MaisRaio();
             }
-            else if (e.Key == Key.C)
+            else if (e.Key == Key.Z)
             {
-                camera.PanCima();
+                sr_palito.MenosAngulo();
             }
-            else if (e.Key == Key.B)
+            else if (e.Key == Key.X)
             {
-                camera.PanBaixo();
-            }
-            else if (e.Key == Key.I)
-            {
-                camera.ZoomIn();
-            }
-            else if (e.Key == Key.O)
-            {
-                camera.ZoomOut();
+                sr_palito.MaisAngulo();
             }
             else
                 Console.WriteLine(" __ Tecla não implementada.");
@@ -146,7 +140,7 @@ namespace gcgcg
 #if CG_Gizmo
         private void Sru3D()
         {
-            GL.LineWidth(1);
+            GL.LineWidth(5);
             GL.Begin(PrimitiveType.Lines);
             // GL.Color3(1.0f,0.0f,0.0f);
             GL.Color3(Convert.ToByte(255), Convert.ToByte(0), Convert.ToByte(0));
@@ -166,7 +160,7 @@ namespace gcgcg
         static void Main(string[] args)
         {
             Mundo window = Mundo.GetInstance(600, 600);
-            window.Title = "CG_N2_2";
+            window.Title = "CG_N2_4";
             window.Run(1.0 / 60.0);
         }
     }
