@@ -8,21 +8,21 @@ namespace gcgcg
     internal class SegReta : ObjetoGeometria
     {
 
-        public List<Ponto4D> listaPontos;
+        public Ponto4D ptoInicial, ptoFinal;
 
-        public SegReta(char rotulo, Objeto paiRef, List<Ponto4D> listaPontos) : base(rotulo, paiRef)
+        public SegReta(char rotulo, Objeto paiRef, Ponto4D ptoInicial, Ponto4D ptoFinal) : base(rotulo, paiRef)
         {
-            this.listaPontos = listaPontos;
+            this.ptoInicial = ptoInicial;
+            this.ptoFinal = ptoFinal;
         }
 
         protected override void DesenharObjeto()
         {
             GL.Begin(PrimitiveType.LineStrip);
 
-            foreach (Ponto4D pto in this.listaPontos)
-            {
-                GL.Vertex2(pto.X, pto.Y);
-            }
+            GL.Vertex2(this.ptoInicial.X, this.ptoInicial.Y);
+            GL.Vertex2(this.ptoFinal.X, this.ptoFinal.Y);
+
             GL.End();
         }
     }

@@ -122,6 +122,14 @@ namespace gcgcg
             {
                 sr_palito.MaisAngulo();
             }
+            else if (e.Key == Key.W)
+            {
+                sr_palito.irDireita();
+            }
+            else if (e.Key == Key.Q)
+            {
+                sr_palito.irEsquerda();
+            }
             else
                 Console.WriteLine(" __ Tecla não implementada.");
         }
