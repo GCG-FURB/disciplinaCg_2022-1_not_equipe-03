@@ -59,7 +59,7 @@ namespace gcgcg
             GL.End();
 
             // Usando SegReta
-            ptoFinal = new Ponto4D(ptoInicial.X + ptoFinal.X, ptoInicial.Y + ptoFinal.Y)
+            ptoFinal = new Ponto4D(ptoInicial.X + ptoFinal.X, ptoInicial.Y + ptoFinal.Y);
             seg_reta = new SegReta(this.rotulo, null, ptoInicial, ptoFinal);
         }
     }
