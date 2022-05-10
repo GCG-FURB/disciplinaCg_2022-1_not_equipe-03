@@ -18,7 +18,8 @@ namespace gcgcg
             this.raio = raio;
         }
 
-        public void irDireita(){
+        public void irDireita()
+        {
             this.ptoInicial.X += 1;
             this.ptoInicial.X += 1;
         }
@@ -28,7 +29,8 @@ namespace gcgcg
             this.ptoInicial.X -= 1;
         }
 
-        public void MaisAngulo() {
+        public void MaisAngulo()
+        {
             this.angulo += 1;
         }
 
@@ -49,18 +51,14 @@ namespace gcgcg
         protected override void DesenharObjeto()
         {
             ptoFinal = Matematica.GerarPtosCirculo((double)this.angulo, (double)this.raio);
-
-
-            // Na MAO
-            GL.Begin(PrimitiveType.Lines);
-            GL.Vertex2(ptoInicial.X, ptoInicial.Y);
-            ptoFinal = Matematica.GerarPtosCirculo((double)this.angulo, (double)this.raio);
-            GL.Vertex2(ptoInicial.X + ptoFinal.X, ptoInicial.Y + ptoFinal.Y);
-            GL.End();
-
-            // Usando SegReta
             ptoFinal = new Ponto4D(ptoInicial.X + ptoFinal.X, ptoInicial.Y + ptoFinal.Y);
+
             seg_reta = new SegReta(this.rotulo, null, ptoInicial, ptoFinal);
+            seg_reta.ObjetoCor.CorR = 0;
+            seg_reta.ObjetoCor.CorG = 0;
+            seg_reta.ObjetoCor.CorB = 0;
+            seg_reta.PrimitivaTamanho = 3;
+            seg_reta.Desenhar();
         }
     }
 }

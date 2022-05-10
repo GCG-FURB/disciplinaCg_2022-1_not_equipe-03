@@ -56,10 +56,6 @@ namespace gcgcg
             objetoId = Utilitario.charProximo(objetoId);
 
             sr_palito = new SrPalito(objetoId, null, new Ponto4D(0, 0), 45, 100);
-            sr_palito.ObjetoCor.CorR = 0;
-            sr_palito.ObjetoCor.CorG = 0;
-            sr_palito.ObjetoCor.CorB = 0;
-            sr_palito.PrimitivaTamanho = 3;
 
             objetosLista.Add(sr_palito);
             objetoSelecionado = sr_palito;
