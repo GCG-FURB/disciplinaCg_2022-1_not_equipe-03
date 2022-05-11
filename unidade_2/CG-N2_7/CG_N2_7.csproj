@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>CG_N2_2</RootNamespace>
+    <RootNamespace>CG_N2_7</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -248,7 +248,7 @@ namespace gcgcg
         static void Main(string[] args)
         {
             Mundo window = Mundo.GetInstance(600, 600);
-            window.Title = "CG_N2_6";
+            window.Title = "CG_N2_4";
             window.Run(1.0 / 60.0);
         }
     }
