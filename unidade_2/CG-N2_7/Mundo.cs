@@ -32,13 +32,13 @@ namespace gcgcg
         int mouseX, mouseY;   //TODO: achar método MouseDown para não ter variável Global
         private bool mouseMoverPto = false;
         private Retangulo ret_1, ret_2, ret_3, ret_4;
-        private Circulo circulo_obj;
-        private Ponto4D pto1, pto2, pto3, pto4, pto_selecionado;
+        private Circulo circulo_obj_grande, circulo_obj_pequeno;
+        private Ponto4D pto_central_circulo_grande, pto_circulo_pequeno, point_1, point_2;
         private SegReta seg_reta_1, seg_reta_2, seg_reta_3, seg_reta_4;
         private PrimitivasGeometricas primitivasGeometricas;
         private int primitivaIndex = 0;
         private Spline spline;
-        private Point point_1, point_2, point_3, point_4, point_selecionado;
+        private Point point_visual_centro;
 
         private SrPalito sr_palito;
 
@@ -52,71 +52,60 @@ namespace gcgcg
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            camera.xmin = -400; camera.xmax = 400; camera.ymin = -400; camera.ymax = 400;
+            camera.xmin = -100; camera.xmax = 500; camera.ymin = -100; camera.ymax = 500;
 
             Console.WriteLine(" --- Ajuda / Teclas: ");
             Console.WriteLine(" [  H     ] mostra teclas usadas. ");
             objetoId = Utilitario.charProximo(objetoId);
 
-            // Ponto 1
-            pto1 = new Ponto4D(-100, -100);
+            // Circulo grande
+            pto_central_circulo_grande = new Ponto4D(200, 200);
+            circulo_obj_grande = new Circulo(objetoId, null, pto_central_circulo_grande, 150);
+            circulo_obj_grande.ObjetoCor.CorR = 0;
+            circulo_obj_grande.ObjetoCor.CorG = 0;
+            circulo_obj_grande.ObjetoCor.CorB = 0;
+            circulo_obj_grande.PrimitivaTamanho = 3;
+            objetosLista.Add(circulo_obj_grande);
 
-            point_1 = new Point(objetoId, null, pto1);
-            point_1.ObjetoCor.CorR = 255; point_1.ObjetoCor.CorG = 0; point_1.ObjetoCor.CorB = 0;
-            point_1.PrimitivaTamanho = 10;
-            objetosLista.Add(point_1);
+            // Retangulo Interno
+            point_1 = Matematica.GerarPtosCirculo(45.0, 150);
+            point_1.X += pto_central_circulo_grande.X;
+            point_1.Y += pto_central_circulo_grande.Y;
 
-            // Ponto 2
-            pto2 = new Ponto4D(-100, 100);
+            point_2 = Matematica.GerarPtosCirculo(225.0, 150);
+            point_2.X += pto_central_circulo_grande.X;
+            point_2.Y += pto_central_circulo_grande.Y;
 
-            point_2 = new Point(objetoId, null, pto2);
-            point_2.ObjetoCor.CorR = 0; point_2.ObjetoCor.CorG = 0; point_2.ObjetoCor.CorB = 0;
-            point_2.PrimitivaTamanho = 10;
-            objetosLista.Add(point_2);
-
-            // Ponto 3
-            pto3 = new Ponto4D(100, 100);
-            point_3 = new Point(objetoId, null, pto3);
-            point_3.ObjetoCor.CorR = 0; point_3.ObjetoCor.CorG = 0; point_3.ObjetoCor.CorB = 0;
-            point_3.PrimitivaTamanho = 10;
-            objetosLista.Add(point_3);
-
-            // Ponto 4
-            pto4 = new Ponto4D(100, -100);
-            point_4 = new Point(objetoId, null, pto4);
-            point_4.ObjetoCor.CorR = 0; point_4.ObjetoCor.CorG = 0; point_4.ObjetoCor.CorB = 0;
-            point_4.PrimitivaTamanho = 10;
-            objetosLista.Add(point_4);
+            ret_1 = new Retangulo(objetoId, null, point_1, point_2);
+            ret_1.ObjetoCor.CorR = 255;
+            ret_1.ObjetoCor.CorG = 0;
+            ret_1.ObjetoCor.CorB = 0;
+            ret_1.PrimitivaTamanho = 3;
+            objetosLista.Add(ret_1);
 
 
-            // Segmento de cima
-            seg_reta_1 = new SegReta(objetoId, null, pto2, pto3);
-            seg_reta_1.ObjetoCor.CorR = 0; seg_reta_1.ObjetoCor.CorG = 255; seg_reta_1.ObjetoCor.CorB = 255;
-            seg_reta_1.PrimitivaTamanho = 3;
-            objetosLista.Add(seg_reta_1);
+            // Circulo Pequeno
+            pto_circulo_pequeno = new Ponto4D(200, 200);
 
-            // Segmento de esquerda
-            seg_reta_2 = new SegReta(objetoId, null, pto1, pto2);
-            seg_reta_2.ObjetoCor.CorR = 0; seg_reta_2.ObjetoCor.CorG = 255; seg_reta_2.ObjetoCor.CorB = 255;
-            seg_reta_2.PrimitivaTamanho = 3;
-            objetosLista.Add(seg_reta_2);
+            circulo_obj_pequeno = new Circulo(objetoId, null, pto_circulo_pequeno, 50);
+            circulo_obj_pequeno.ObjetoCor.CorR = 0;
+            circulo_obj_pequeno.ObjetoCor.CorG = 0;
+            circulo_obj_pequeno.ObjetoCor.CorB = 0;
+            circulo_obj_pequeno.PrimitivaTamanho = 3;
 
-            // Segmento de direita
-            seg_reta_3 = new SegReta(objetoId, null, pto3, pto4);
-            seg_reta_3.ObjetoCor.CorR = 0; seg_reta_3.ObjetoCor.CorG = 255; seg_reta_3.ObjetoCor.CorB = 255;
-            seg_reta_3.PrimitivaTamanho = 3;
-            objetosLista.Add(seg_reta_3);
+            objetosLista.Add(circulo_obj_pequeno);
 
-            // Spline
-            spline = new Spline(objetoId, null, pto1, pto2, pto3, pto4, 10);
-            spline.ObjetoCor.CorR = 255; spline.ObjetoCor.CorG = 255; spline.ObjetoCor.CorB = 0;
-            spline.PrimitivaTamanho = 3;
-            objetosLista.Add(spline);
+            // Point
+            point_visual_centro = new Point(objetoId, null, pto_circulo_pequeno);
+            point_visual_centro.ObjetoCor.CorR = 0;
+            point_visual_centro.ObjetoCor.CorG = 0;
+            point_visual_centro.ObjetoCor.CorB = 0;
+            point_visual_centro.PrimitivaTamanho = 5;
+
+            objetosLista.Add(point_visual_centro);
+            objetoSelecionado = ret_1;
 
 
-            point_selecionado = point_1;
-            pto_selecionado = pto1;
-            objetoSelecionado = seg_reta_1;
 
 #if CG_Privado
       // objetoId = Utilitario.charProximo(objetoId);
@@ -156,57 +145,73 @@ namespace gcgcg
             this.SwapBuffers();
         }
 
-        public void trocaPontoSelecionado(Ponto4D novo_pto_selecionado, Point novo_point){
-            this.point_selecionado.ObjetoCor.CorR = 0;
-
-            this.pto_selecionado = novo_pto_selecionado;
-            this.point_selecionado = novo_point;
-
-            novo_point.ObjetoCor.CorR = 255;
+        public bool podeMoverCirculo()
+        {
+            if (ret_1.BBox.estaDentro(pto_circulo_pequeno))
+            {
+                Console.WriteLine("Dentro Retangulo");
+                ret_1.ObjetoCor.CorR = 255;
+                ret_1.ObjetoCor.CorG = 0;
+                ret_1.ObjetoCor.CorB = 0;
+                return true;
+            }
+            else if (circulo_obj_grande.estaDentro(pto_circulo_pequeno))
+            {
+                Console.WriteLine("Dentro Circulo");
+                ret_1.ObjetoCor.CorR = 0;
+                ret_1.ObjetoCor.CorG = 0;
+                ret_1.ObjetoCor.CorB = 255;
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("FORAA");
+                return false;
+            }
         }
 
         protected override void OnKeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
         {
-            if (e.Key == Key.Number1){
-                trocaPontoSelecionado(pto1, point_1);
-            }
-            else if (e.Key == Key.Number2)
+            if (e.Key == Key.W)
             {
-                trocaPontoSelecionado(pto2, point_2);
+                pto_circulo_pequeno.Y += 4;
+
+                if (!this.podeMoverCirculo())
+                    pto_circulo_pequeno.Y -= 4;
             }
-            else if (e.Key == Key.Number3)
+            else if (e.Key == Key.A && this.podeMoverCirculo())
             {
-                trocaPontoSelecionado(pto3, point_3);
+                pto_circulo_pequeno.X -= 4;
+
+                if (!this.podeMoverCirculo())
+                    pto_circulo_pequeno.X += 4;
             }
-            else if (e.Key == Key.Number4)
+            else if (e.Key == Key.S && this.podeMoverCirculo())
             {
-                trocaPontoSelecionado(pto4, point_4);
+                pto_circulo_pequeno.Y -= 4;
+
+                if (!this.podeMoverCirculo())
+                    pto_circulo_pequeno.Y += 4;
+
             }
-            else if (e.Key == Key.C)
+            else if (e.Key == Key.D && this.podeMoverCirculo())
             {
-                pto_selecionado.Y += 2;
+                pto_circulo_pequeno.X += 4;
+
+                if (!this.podeMoverCirculo())
+                    pto_circulo_pequeno.X -= 4;
             }
-            else if (e.Key == Key.B)
-            {
-                pto_selecionado.Y -= 2;
-            }
+            else if (e.Key == Key.O)
+                bBoxDesenhar = !bBoxDesenhar;
             else if (e.Key == Key.E)
             {
-                pto_selecionado.X -= 2;
+                Console.WriteLine("--- Objetos / Pontos: ");
+                for (var i = 0; i < objetosLista.Count; i++)
+                {
+                    Console.WriteLine(objetosLista[i]);
+                }
             }
-            else if (e.Key == Key.D)
-            {
-                pto_selecionado.X += 2;
-            }
-            else if (e.Key == Key.Plus)
-            {
-                this.spline.quantidade_pontos++;
-            }
-            else if (e.Key == Key.Minus)
-            {
-                this.spline.quantidade_pontos--;
-            }
-            else 
+            else
             {
                 Console.WriteLine(" __ Tecla não implementada.");
                 Console.WriteLine(e.Key);
@@ -248,7 +253,7 @@ namespace gcgcg
         static void Main(string[] args)
         {
             Mundo window = Mundo.GetInstance(600, 600);
-            window.Title = "CG_N2_4";
+            window.Title = "CG_N2_7";
             window.Run(1.0 / 60.0);
         }
     }
