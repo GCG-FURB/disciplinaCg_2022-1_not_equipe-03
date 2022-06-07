@@ -1,5 +1,4 @@
-﻿
-#define CG_Gizmo
+﻿#define CG_Gizmo
 // #define CG_Privado
 
 using System;
@@ -15,7 +14,9 @@ namespace gcgcg
     {
         private static Mundo instanciaMundo = null;
 
-        private Mundo(int width, int height) : base(width, height) { }
+        private Mundo(int width, int height) : base(width, height)
+        {
+        }
 
         public static Mundo GetInstance(int width, int height)
         {
@@ -29,11 +30,13 @@ namespace gcgcg
         private ObjetoGeometria objetoSelecionado = null;
         private char objetoId = '@';
         private bool bBoxDesenhar = false;
-        int mouseX, mouseY;   //TODO: achar método MouseDown para não ter variável Global
+        int mouseX, mouseY; //TODO: achar método MouseDown para não ter variável Global
         private bool mouseMoverPto = false;
         private Ponto4D pto1, pto2, pto3, pto4, pto5, pto_click_1, pto_click_2, pto_click_3;
         private Poligono bandeirinha;
         private Point point_obj_1, point_obj_2, point_obj_3;
+        private bool construindo_poligono = false;
+        private int x_mouse, y_mouse;
 
 #if CG_Privado
     private Privado_SegReta obj_SegReta;
@@ -43,7 +46,10 @@ namespace gcgcg
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            camera.xmin = -100; camera.xmax = 500; camera.ymin = -100; camera.ymax = 500;
+            camera.xmin = 0;
+            camera.xmax = 600;
+            camera.ymin = 0;
+            camera.ymax = 600;
 
             Console.WriteLine(" --- Ajuda / Teclas: ");
             Console.WriteLine(" [  H     ] mostra teclas usadas. ");
@@ -54,30 +60,31 @@ namespace gcgcg
             pto3 = new Ponto4D(150, 150);
             pto4 = new Ponto4D(150, 50);
             pto5 = new Ponto4D(100, 100);
-            
+
             pto_click_1 = new Ponto4D(40, 65);
             point_obj_1 = new Point(objetoId, null, pto_click_1);
             this.objetosLista.Add(point_obj_1);
-            
+
             pto_click_2 = new Ponto4D(100, 65);
             point_obj_2 = new Point(objetoId, null, pto_click_2);
             this.objetosLista.Add(point_obj_2);
-            
+
             pto_click_3 = new Ponto4D(160, 65);
             point_obj_3 = new Point(objetoId, null, pto_click_3);
             this.objetosLista.Add(point_obj_3);
 
-            bandeirinha = new Poligono(objetoId,null, new List<Ponto4D>(){pto1, pto2, pto3,pto4, pto5});
+            bandeirinha = new Poligono(objetoId, null, new List<Ponto4D>() { pto1, pto2, pto3, pto4, pto5 });
             bandeirinha.PrimitivaTamanho = 3;
             bandeirinha.ObjetoCor.CorR = 0;
             bandeirinha.ObjetoCor.CorG = 0;
             bandeirinha.ObjetoCor.CorB = 255;
-            
+
             this.objetosLista.Add(bandeirinha);
             objetoSelecionado = bandeirinha;
-            
+
             GL.ClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         }
+
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
@@ -112,9 +119,35 @@ namespace gcgcg
                     Console.WriteLine(objetosLista[i]);
                 }
             }
+            else if (e.Key == Key.Space)
+            {
+                if (construindo_poligono)
+                {
+                    objetoSelecionado.PontosAdicionar(new Ponto4D(x_mouse, y_mouse));
+                }
+                else
+                {
+                    Poligono poligono = new Poligono(objetoId, null, new List<Ponto4D>());
+                    poligono.PrimitivaTamanho = 3;
+                    poligono.ObjetoCor.CorR = 255;
+                    poligono.ObjetoCor.CorG = 255;
+                    poligono.ObjetoCor.CorB = 255;
+                    poligono.PontosAdicionar(new Ponto4D(x_mouse, y_mouse));
+                    poligono.PontosAdicionar(new Ponto4D(x_mouse, y_mouse));
+
+                    objetosLista.Add(poligono);
+                    objetoSelecionado = poligono;
+                    construindo_poligono = true;
+                }
+            }
+            else if (e.Key == Key.Enter && construindo_poligono)
+            {
+                objetoSelecionado.PontosRemoverUltimo();
+                construindo_poligono = false;
+            }
             else if (e.Key == Key.K)
             {
-                List<Ponto4D> alo = new List<Ponto4D>() { pto_click_1, pto_click_2, pto_click_3};
+                List<Ponto4D> alo = new List<Ponto4D>() { pto_click_1, pto_click_2, pto_click_3 };
 
                 foreach (var pto in alo)
                 {
@@ -129,22 +162,41 @@ namespace gcgcg
                     }
                 }
             }
+            else if (e.Key == Key.R)
+            {
+                objetoSelecionado.ObjetoCor.CorR = 255;
+                objetoSelecionado.ObjetoCor.CorG = 0;
+                objetoSelecionado.ObjetoCor.CorB = 0;
+            }
+            else if (e.Key == Key.G)
+            {
+                objetoSelecionado.ObjetoCor.CorR = 0;
+                objetoSelecionado.ObjetoCor.CorG = 255;
+                objetoSelecionado.ObjetoCor.CorB = 0;
+            }
+            else if (e.Key == Key.B)
+            {
+                objetoSelecionado.ObjetoCor.CorR = 0;
+                objetoSelecionado.ObjetoCor.CorG = 0;
+                objetoSelecionado.ObjetoCor.CorB = 255;
+            }
             else
             {
                 Console.WriteLine(" __ Tecla não implementada.");
                 Console.WriteLine(e.Key);
             }
-
         }
 
-        //TODO: não está considerando o NDC
         protected override void OnMouseMove(MouseMoveEventArgs e)
         {
-            mouseX = e.Position.X; mouseY = 600 - e.Position.Y; // Inverti eixo Y
-            if (mouseMoverPto && (objetoSelecionado != null))
+            //Console.WriteLine("Mouse X" + e.Position.X + " - Y" + (600 - e.Position.Y)); // Inverti eixo Y
+            x_mouse = e.Position.X;
+            y_mouse = (600 - e.Position.Y);
+
+            if (construindo_poligono)
             {
-                objetoSelecionado.PontosUltimo().X = mouseX;
-                objetoSelecionado.PontosUltimo().Y = mouseY;
+                objetoSelecionado.PontosUltimo().X = x_mouse;
+                objetoSelecionado.PontosUltimo().Y = y_mouse;
             }
         }
 
@@ -155,17 +207,21 @@ namespace gcgcg
             GL.Begin(PrimitiveType.Lines);
             // GL.Color3(1.0f,0.0f,0.0f);
             GL.Color3(Convert.ToByte(255), Convert.ToByte(0), Convert.ToByte(0));
-            GL.Vertex3(0, 0, 0); GL.Vertex3(200, 0, 0);
+            GL.Vertex3(0, 0, 0);
+            GL.Vertex3(200, 0, 0);
             // GL.Color3(0.0f,1.0f,0.0f);
             GL.Color3(Convert.ToByte(0), Convert.ToByte(255), Convert.ToByte(0));
-            GL.Vertex3(0, 0, 0); GL.Vertex3(0, 200, 0);
+            GL.Vertex3(0, 0, 0);
+            GL.Vertex3(0, 200, 0);
             // GL.Color3(0.0f,0.0f,1.0f);
             GL.Color3(Convert.ToByte(0), Convert.ToByte(0), Convert.ToByte(255));
-            GL.Vertex3(0, 0, 0); GL.Vertex3(0, 0, 200);
+            GL.Vertex3(0, 0, 0);
+            GL.Vertex3(0, 0, 200);
             GL.End();
         }
 #endif
     }
+
     class Program
     {
         static void Main(string[] args)

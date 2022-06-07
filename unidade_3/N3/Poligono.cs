@@ -16,9 +16,14 @@ namespace gcgcg
             }
         }
 
+        public void AddPonto4D(Ponto4D pto)
+        {
+            base.PontosAdicionar(pto);
+        }
+
         protected override void DesenharObjeto()
         {
-            GL.Begin(PrimitiveType.LineLoop);
+            GL.Begin(base.PrimitivaTipo);
 
             foreach (var point in pontosLista)
             {
