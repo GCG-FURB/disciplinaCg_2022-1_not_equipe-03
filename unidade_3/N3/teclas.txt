@@ -1,0 +1,50 @@
+I - Atribui matriz identidade
+A (dentro de um poligono) - Seleciona o Poligono
+A (fora de um poligino ) - objeto selecionado = null
+setas - Translacao do objeto selecionado
+
+Quando tiver um objeto seleciona, e comecar a criar um novo poligono, colocamos ele como filho
+Usar o pairef para isso? 
+
+DEL - Remove o pologono selecionado?
+COmo pego o click do mouse?
+
+2. Estrutura de dados: polígono
+Insira e remova polígonos da cena gráfica.
+
+3. Estrutura de dados: vértices
+Ao clicar na tela utilizando o mouse selecione o vértice mais próximo do polígono selecionado para pode mover ou remover o respectivo vértice.
+
+Atenção: no caso do mover o vértice o valores da coordenada é alterada e não os valores da matriz de transformação.
+
+
+5. Interação: desenho
+Utilize o mouse para clicar na tela e desenhar polígonos (aberto ou fechado).
+
+7. Interação: BBox
+Utilizando o mouse selecione um polígono (convexo ou côncavo) usando detecção hierárquica filtrando primeiro pela BBox e, se for interno a BBox então testar usando Scan Line (exibir a BBox do polígono selecionado usando a cor amarela).
+
+8. Transformações Geométricas: translação
+Utilizando o mouse movimente o polígono selecionado.
+
+Atenção: usar matriz de transformação e não alterar os valores dos vértices dos polígonos.
+
+9. Transformações Geométricas: escala
+Utilizando o mouse redimensione o polígono selecionado em relação ao centro da sua BBox.
+
+Atenção: usar matriz de transformação e não alterar os valores dos vértices dos polígonos.
+
+10. Transformações Geométricas: rotação
+Utilizando o mouse gire o polígono selecionado em relação ao centro da sua BBox.
+
+Atenção: usar matriz de transformação e não alterar os valores dos vértices dos polígonos.
+
+11. Grafo de cena: selecionar
+Permita adicionar polígonos “filhos” num polígono selecionado utilizando a estrutura do grafo de cena.
+
+Atenção: usar matriz de transformação global para acumular transformações de acordo com o grafo de cena.
+
+12. Grafo de cena: transformação
+Considere a transformação global ao transformar (translação/escala/rotação) um polígono “pai”.
+
+Atenção: usar matriz de transformação global para acumular transformações de acordo com o grafo de cena.

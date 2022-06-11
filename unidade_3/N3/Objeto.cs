@@ -20,14 +20,22 @@ namespace gcgcg
     private BBox bBox = new BBox();
     public BBox BBox { get => bBox; set => bBox = value; }
     private List<Objeto> objetosLista = new List<Objeto>();
+    public Transformacao4D transformacao4D = new Transformacao4D();
 
     public Objeto(char rotulo, Objeto paiRef)
     {
       this.rotulo = rotulo;
     }
 
+    public char getRotulo()
+    {
+      return this.rotulo;
+    }
+
     public void Desenhar()
     {
+      GL.PushMatrix();
+      GL.MultMatrix(transformacao4D.ObterDados());
       GL.Color3(objetoCor.CorR, objetoCor.CorG, objetoCor.CorB);
       GL.LineWidth(primitivaTamanho);
       GL.PointSize(primitivaTamanho);
@@ -36,6 +44,7 @@ namespace gcgcg
       {
         objetosLista[i].Desenhar();
       }
+      GL.PopMatrix();
     }
     protected abstract void DesenharGeometria();
     public void FilhoAdicionar(Objeto filho)
@@ -46,5 +55,25 @@ namespace gcgcg
     {
       this.objetosLista.Remove(filho);
     }
+    
+    public void TranslacaoXYZ(double tx, double ty, double tz)
+    {
+      Transformacao4D t = new Transformacao4D();
+      t.AtribuirTranslacao(tx, ty, tz);
+      transformacao4D = t.MultiplicarMatriz(transformacao4D);
+    }
+    
+    public void EscalaXYZ(double sx, double sy, double sz)
+    {
+      Transformacao4D t = new Transformacao4D();
+      t.AtribuirEscala(sx, sy, sz);
+      transformacao4D = t.MultiplicarMatriz(transformacao4D);
+    }
+    
+    public void AtribuirIdentidade()
+    { 
+      transformacao4D.AtribuirIdentidade();
+    }
+    
   }
 }

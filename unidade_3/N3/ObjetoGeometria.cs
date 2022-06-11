@@ -3,14 +3,14 @@
 **/
 
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using CG_Biblioteca;
 
 namespace gcgcg
 {
   internal abstract class ObjetoGeometria : Objeto
   {
-    protected List<Ponto4D> pontosLista = new List<Ponto4D>();
-
+    public List<Ponto4D> pontosLista = new List<Ponto4D>();
     public ObjetoGeometria(char rotulo, Objeto paiRef) : base(rotulo, paiRef) { }
 
     protected override void DesenharGeometria()
@@ -31,6 +31,11 @@ namespace gcgcg
     public void PontosRemoverUltimo()
     {
       pontosLista.RemoveAt(pontosLista.Count - 1);
+    }
+    
+    public void PontosRemoverNoIndex(int index)
+    {
+      pontosLista.RemoveAt(index);
     }
 
     protected void PontosRemoverTodos()
