@@ -75,21 +75,18 @@ namespace gcgcg
         public bool estaDentro(Ponto4D pto)
         {
             int cruzamentos = 0;
-            for (int i = 0; i < pontosLista.Count + 1; i++)
+            for (int i = 0; i < pontosLista.Count; i++)
             {
                 int index_prox_pto = i + 1;
                 if (index_prox_pto >= pontosLista.Count)
                     index_prox_pto = 0;
-
+                
                 Ponto4D pto_1 = pontosLista[i];
                 Ponto4D pto_2 = pontosLista[index_prox_pto];
 
                 double ti = Matematica.intercecao_scan_line(pto.Y, pto_1.Y, pto_2.Y);
-                
-                Console.WriteLine("ti: ");
-                Console.WriteLine(ti);
 
-                if (ti is < 0 or > 1)
+                if (ti >= 0 && ti <= 1)
                 {
                     double xi = Matematica.calcula_xi_scan_line(pto_1.X, pto_2.X, ti);
 
@@ -101,7 +98,7 @@ namespace gcgcg
                 }
             }
 
-            return cruzamentos % 2 == 0;
+            return cruzamentos % 2 != 0;
         }
     }
 }

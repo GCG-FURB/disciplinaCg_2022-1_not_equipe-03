@@ -187,20 +187,15 @@ namespace gcgcg
             else if (e.Key == Key.A)
             {
                 pto_click = new Ponto4D(x_mouse, y_mouse);
-                Console.WriteLine(pto_click.ToString());
 
                 for (var i = 0; i < objetosLista.Count; i++)
                 {
                     if (objetosLista[i].BBox.estaDentro(pto_click))
                     {
-                        Console.WriteLine("esta DENTRO da BBox: ");
-                        Console.WriteLine(objetosLista[i]);
-                        
+                        Console.WriteLine("Dentro BBox " + objetosLista[i].getRotulo());
                         if (objetosLista[i].estaDentro(pto_click))
                         {
-                            Console.WriteLine("esta DENTRO do POLIGONO: ");
-                            Console.WriteLine(objetosLista[i]);
-
+                            Console.WriteLine("Dentro Poligono (objeto novo selecionado)" + objetosLista[i].getRotulo());
                             objetoSelecionado = objetosLista[i];
                             break;
                         }
