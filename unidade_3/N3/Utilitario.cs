@@ -17,11 +17,11 @@ namespace gcgcg
       Console.WriteLine(" [  H     ] mostra está ajuda. "); // OK
       Console.WriteLine(" [Escape  ] sair. "); // OK
       Console.WriteLine(" [  E     ] N3-Exe04: listas polígonos e vértices. "); // OK
-      Console.WriteLine(" [  O     ] N3-Exe08: exibe bBox do polígono selecionado. "); // OK
+      Console.WriteLine(" [  O     ] N3-Exe08: exibe bBox do polígono selecionado. "); // OK - ver que quando delete vertice nao atualiza
       Console.WriteLine(" [Enter   ] N3-Exe09: termina adição e mover de pontos, desseleciona polígono. "); // OK
       Console.WriteLine(" [Espaço  ] N3-Exe06: adiciona vértice ao polígono. "); // OK
       Console.WriteLine(" [  A     ] N3-Exe09: seleção do Polígono. "); // FAZER
-      Console.WriteLine(" [  M     ]         : exibe matriz de transformação do polígono selecionado. "); // Aonde a matrz de transformacao tem que ficar, objeto ou objeto geometria
+      Console.WriteLine(" [  M     ]         : exibe matriz de transformação do polígono selecionado. "); // OK
       Console.WriteLine(" [  P     ]         : exibe os vértices do polígono selecionado. "); // OK
       Console.WriteLine(" [  I     ]         : aplica a matriz Identidade no polígono selecionado. "); // OK
       Console.WriteLine(" [Left    ] N3-Exe10: move o polígono selecionado para eixo X positivo. "); // OK
@@ -29,8 +29,8 @@ namespace gcgcg
       Console.WriteLine(" [Up      ] N3-Exe10: move o polígono selecionado para eixo Y positivo. "); // OK
       Console.WriteLine(" [Down    ] N3-Exe10: move o polígono selecionado para eixo Y negativo. "); // OK
       // [TODO:] poderia usar a escolha do eixo X,Y,Z para além de saber qual eixo da rotação também qual eixo faz a translação. Assim as seta esq/dir move o objeto de acordo com o eixo, e as setas para cima e para baixo aumentam e diminuiem o passo da translação
-      Console.WriteLine(" [PageUp  ]         : reduz o polígono selecionado em relação a origem. "); // OK - nao funca direito
-      Console.WriteLine(" [PageDown]         : amplia o polígono selecionado em relação a origem. "); // OK -nao funca direito
+      Console.WriteLine(" [PageUp  ]         : reduz o polígono selecionado em relação a origem. "); // OK
+      Console.WriteLine(" [PageDown]         : amplia o polígono selecionado em relação a origem. "); // OK
       Console.WriteLine(" [Home    ] N3-Exe11: reduz o polígono selecionado em relação ao centro da bBox. "); // Ver diferenca com de cima
       Console.WriteLine(" [End     ] N3-Exe11: amplia o polígono selecionado em relação ao centro da bBox. "); // Ver diferenca com de cima
       Console.WriteLine(" [  1     ]         : rotação anti-horária do polígono selecionado em relação a origem. ");
@@ -42,8 +42,8 @@ namespace gcgcg
       Console.WriteLine(" [  B     ] N3-Exe08: atribui a cor azul ao polígono selecionado. "); // OK
       Console.WriteLine(" [  S     ] N3-Exe07: alterna entre aberto e fechado o polígono selecionado. "); // Ver qual tipo colocar - coloquei Lines
       Console.WriteLine(" [  D     ] N3-Exe05: remove o vértice do polígono selecionado que estiver mais perto do mouse. "); // OK
-      Console.WriteLine(" [  V     ] N3-Exe05: move o vértice do polígono selecionado que estiver mais perto do mouse. "); // Nao funca
-      Console.WriteLine(" [  C     ] N3-Exe04: remove o polígono selecionado. ");
+      Console.WriteLine(" [  V     ] N3-Exe05: move o vértice do polígono selecionado que estiver mais perto do mouse. "); // OK
+      Console.WriteLine(" [  C     ] N3-Exe04: remove o polígono selecionado. "); // OK
       Console.WriteLine(" [  X     ]         : rotação entorno do eixo X. ");
       Console.WriteLine(" [  Y     ]         : rotação entorno do eixo Y. ");
       Console.WriteLine(" [  Z     ]         : rotação entorno do eixo Z. ");

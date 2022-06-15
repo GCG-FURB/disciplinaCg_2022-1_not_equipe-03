@@ -31,7 +31,7 @@ namespace gcgcg
         private char objetoId = '@';
         private bool bBoxDesenhar = false;
         private bool mouseMoverPto = false;
-        private Ponto4D pto1, pto2, pto3, pto4, pto5, pto_click_1, pto_click_2, pto_click_3, vertice_movendo;
+        private Ponto4D pto1, pto2, pto3, pto4, pto5, pto_click, vertice_movendo;
         private Poligono bandeirinha;
         private Point point_obj_1, point_obj_2, point_obj_3;
         private bool construindo_poligono = false;
@@ -74,7 +74,7 @@ namespace gcgcg
             // point_obj_3 = new Point(objetoId, null, pto_click_3);
             // this.objetosLista.Add(point_obj_3);
 
-            objetoId = Utilitario.charProximo(objetoId);
+            //objetoId = Utilitario.charProximo(objetoId);
             bandeirinha = new Poligono(objetoId, null, new List<Ponto4D>() { pto1, pto2, pto3, pto4, pto5 });
             bandeirinha.PrimitivaTamanho = 3;
             bandeirinha.ObjetoCor.CorR = 0;
@@ -111,28 +111,25 @@ namespace gcgcg
             this.SwapBuffers();
         }
 
-        protected (int, int) GetIndexsVerticeMiasPertoMouse()
+        protected int GetIndexsVerticeMiasPertoMouse()
         {
             int index_i = -1;
-            int index_j = -1;
             double distancia_menor = Double.MaxValue;
-                
-            for (int i = 0; i < objetosLista.Count; i++)
-            {
-                for (int j = 0; j < objetosLista[i].pontosLista.Count; j++)
-                {
-                    double distacia = Matematica.DistaciaEntrePontos(x_mouse, y_mouse, objetosLista[i].pontosLista[j].X, objetosLista[i].pontosLista[j].Y);
 
-                    if (distacia < distancia_menor)
-                    {
-                        distancia_menor = distacia;
-                        index_i = i;
-                        index_j = j;
-                    }
+
+            for (int j = 0; j < objetoSelecionado.pontosLista.Count; j++)
+            {
+                double distacia = Matematica.DistaciaEntrePontos(x_mouse, y_mouse, objetoSelecionado.pontosLista[j].X,
+                    objetoSelecionado.pontosLista[j].Y);
+
+                if (distacia < distancia_menor)
+                {
+                    distancia_menor = distacia;
+                    index_i = j;
                 }
             }
 
-            return (index_i, index_j);
+            return index_i;
         }
 
         protected override void OnKeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
@@ -189,24 +186,31 @@ namespace gcgcg
             }
             else if (e.Key == Key.A)
             {
-                List<Ponto4D> alo = new List<Ponto4D>() { pto_click_1, pto_click_2, pto_click_3 };
+                pto_click = new Ponto4D(x_mouse, y_mouse);
+                Console.WriteLine(pto_click.ToString());
 
-                foreach (var pto in alo)
+                for (var i = 0; i < objetosLista.Count; i++)
                 {
-                    Console.WriteLine(pto.ToString());
-                    if (bandeirinha.BBox.estaDentro(pto))
+                    if (objetosLista[i].BBox.estaDentro(pto_click))
                     {
-                        Console.WriteLine("esta DENTRO da BBox");
-                        if (bandeirinha.estaDentro(pto))
+                        Console.WriteLine("esta DENTRO da BBox: ");
+                        Console.WriteLine(objetosLista[i]);
+                        
+                        if (objetosLista[i].estaDentro(pto_click))
                         {
-                            Console.WriteLine("esta DENTRO do POLIGONO");
+                            Console.WriteLine("esta DENTRO do POLIGONO: ");
+                            Console.WriteLine(objetosLista[i]);
+
+                            objetoSelecionado = objetosLista[i];
+                            break;
                         }
                     }
                 }
+                
             }
             else if (e.Key == Key.M)
             {
-                Console.WriteLine(objetoSelecionado.transformacao4D);
+                Console.WriteLine(objetoSelecionado.matriz);
             }
             else if (e.Key == Key.P)
             {
@@ -226,32 +230,27 @@ namespace gcgcg
             else if (e.Key == Key.Down)
                 objetoSelecionado.TranslacaoXYZ(0, -10, 0);
             else if (e.Key == Key.PageDown)
-                objetoSelecionado.EscalaXYZ(2, 2, 2);
+                objetoSelecionado.EscalaXYZ(1.2, 1.2, 1.2);
             else if (e.Key == Key.PageUp)
-                objetoSelecionado.EscalaXYZ(-2, -2, -2);
+                objetoSelecionado.EscalaXYZ(0.8, 0.8, 0.8);
             else if (e.Key == Key.Home)
             {
                 
             }
             else if (e.Key == Key.End)
             {
-                
             }
             else if (e.Key == Key.Number1)
             {
-                
             }
             else if (e.Key == Key.Number2)
             {
-                
             }
             else if (e.Key == Key.Number3)
             {
-                
             }
             else if (e.Key == Key.Number4)
             {
-                
             }
             else if (e.Key == Key.R)
             {
@@ -273,16 +272,16 @@ namespace gcgcg
             }
             else if (e.Key == Key.S)
             {
-                if (objetoSelecionado.PrimitivaTipo == PrimitiveType.Lines)
-                    objetoSelecionado.PrimitivaTipo = PrimitiveType.LineLoop;
+                if (objetoSelecionado.PrimitivaTipo == PrimitiveType.LineLoop)
+                    objetoSelecionado.PrimitivaTipo = PrimitiveType.LineStrip;
                 else
-                    objetoSelecionado.PrimitivaTipo = PrimitiveType.Lines;
+                    objetoSelecionado.PrimitivaTipo = PrimitiveType.LineLoop;
             }
             else if (e.Key == Key.D)
             {
-                var indexs = GetIndexsVerticeMiasPertoMouse();
-                if (indexs.Item1 >= 0 && indexs.Item2 >= 0)
-                    objetosLista[indexs.Item1].PontosRemoverNoIndex(indexs.Item2);
+                var index = GetIndexsVerticeMiasPertoMouse();
+                if (index >= 0)
+                    objetoSelecionado.PontosRemoverNoIndex(index);
             }
             else if (e.Key == Key.V)
             {
@@ -292,25 +291,27 @@ namespace gcgcg
                 }
                 else
                 {
-                    var indexs = GetIndexsVerticeMiasPertoMouse();
-                    if (indexs.Item1 >= 0 && indexs.Item2 >= 0)
+                    var index = GetIndexsVerticeMiasPertoMouse();
+                    if (index >= 0)
                     {
-                        vertice_movendo = objetosLista[indexs.Item1].pontosLista[indexs.Item2];
+                        vertice_movendo = objetoSelecionado.pontosLista[index];
+                        vertice_movendo.X = x_mouse;
+                        vertice_movendo.Y = y_mouse;
                     }
                 }
             }
             else if (e.Key == Key.C)
             {
-                int index = -1;
-                for (int i = 0; i < objetosLista.Count; i++)
-                {
-                    if (objetoSelecionado.getRotulo() == objetosLista[i].getRotulo())
-                    {
-                        index = i;
-                    }
-                }
-                if (index >= 0)
-                    objetosLista.RemoveAt(index);
+                objetosLista.Remove(objetoSelecionado);
+            }
+            else if (e.Key == Key.X)
+            {
+            }
+            else if (e.Key == Key.Y)
+            {
+            }
+            else if (e.Key == Key.Z)
+            {
             }
             else
             {
@@ -331,11 +332,11 @@ namespace gcgcg
                 objetoSelecionado.PontosUltimo().Y = y_mouse;
             }
 
-            // if (vertice_movendo != null)
-            // {
-            //     vertice_movendo.X = x_mouse;
-            //     vertice_movendo.Y = y_mouse;
-            // }
+            if (vertice_movendo != null)
+            {
+                vertice_movendo.X = x_mouse;
+                vertice_movendo.Y = y_mouse;
+            }
         }
 
 #if CG_Gizmo

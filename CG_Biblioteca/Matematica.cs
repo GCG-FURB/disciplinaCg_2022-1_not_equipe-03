@@ -31,5 +31,13 @@ namespace CG_Biblioteca
             return Math.Sqrt((Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2)));
         }
 
+        public static double intercecao_scan_line(double yi, double y1, double y2){
+            return (yi - y1) / (y2 - y1);
+        }
+
+        public static double calcula_xi_scan_line(double x1, double x2, double ti){
+            return (x1 + (x2 - x1) * ti);
+        }
+
     }
 }
