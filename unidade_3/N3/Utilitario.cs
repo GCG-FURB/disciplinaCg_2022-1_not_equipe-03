@@ -20,7 +20,7 @@ namespace gcgcg
       Console.WriteLine(" [  O     ] N3-Exe08: exibe bBox do polígono selecionado. "); // OK - ver que quando delete vertice nao atualiza
       Console.WriteLine(" [Enter   ] N3-Exe09: termina adição e mover de pontos, desseleciona polígono. "); // OK
       Console.WriteLine(" [Espaço  ] N3-Exe06: adiciona vértice ao polígono. "); // OK
-      Console.WriteLine(" [  A     ] N3-Exe09: seleção do Polígono. "); // FAZER
+      Console.WriteLine(" [  A     ] N3-Exe09: seleção do Polígono. "); // OK
       Console.WriteLine(" [  M     ]         : exibe matriz de transformação do polígono selecionado. "); // OK
       Console.WriteLine(" [  P     ]         : exibe os vértices do polígono selecionado. "); // OK
       Console.WriteLine(" [  I     ]         : aplica a matriz Identidade no polígono selecionado. "); // OK
@@ -40,7 +40,7 @@ namespace gcgcg
       Console.WriteLine(" [  R     ] N3-Exe08: atribui a cor vermelha ao polígono selecionado. "); // OK
       Console.WriteLine(" [  G     ] N3-Exe08: atribui a cor verde ao polígono selecionado. "); // OK
       Console.WriteLine(" [  B     ] N3-Exe08: atribui a cor azul ao polígono selecionado. "); // OK
-      Console.WriteLine(" [  S     ] N3-Exe07: alterna entre aberto e fechado o polígono selecionado. "); // Ver qual tipo colocar - coloquei Lines
+      Console.WriteLine(" [  S     ] N3-Exe07: alterna entre aberto e fechado o polígono selecionado. "); // OK
       Console.WriteLine(" [  D     ] N3-Exe05: remove o vértice do polígono selecionado que estiver mais perto do mouse. "); // OK
       Console.WriteLine(" [  V     ] N3-Exe05: move o vértice do polígono selecionado que estiver mais perto do mouse. "); // OK
       Console.WriteLine(" [  C     ] N3-Exe04: remove o polígono selecionado. "); // OK

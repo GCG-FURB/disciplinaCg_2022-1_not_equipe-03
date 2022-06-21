@@ -43,6 +43,11 @@ namespace gcgcg
         {
             pontosLista.RemoveAt(index);
         }
+        
+        public void PontosRemover(Ponto4D pto)
+        {
+            pontosLista.Remove(pto);
+        }
 
         protected void PontosRemoverTodos()
         {

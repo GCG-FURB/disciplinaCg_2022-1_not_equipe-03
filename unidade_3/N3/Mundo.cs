@@ -111,7 +111,7 @@ namespace gcgcg
             this.SwapBuffers();
         }
 
-        protected int GetIndexsVerticeMiasPertoMouse()
+        protected int GetIndexVerticeMaisPertoMouse()
         {
             int index_i = -1;
             double distancia_menor = Double.MaxValue;
@@ -128,7 +128,7 @@ namespace gcgcg
                     index_i = j;
                 }
             }
-
+            
             return index_i;
         }
 
@@ -179,7 +179,14 @@ namespace gcgcg
                     poligono.PontosAdicionar(new Ponto4D(x_mouse, y_mouse));
                     poligono.PontosAdicionar(new Ponto4D(x_mouse, y_mouse));
 
-                    objetosLista.Add(poligono);
+                    if (objetoSelecionado != null)
+                    {
+                        objetoSelecionado.FilhoAdicionar(poligono);
+                    }
+                    else
+                    {
+                        objetosLista.Add(poligono);
+                    }
                     objetoSelecionado = poligono;
                     construindo_poligono = true;
                 }
@@ -187,6 +194,7 @@ namespace gcgcg
             else if (e.Key == Key.A)
             {
                 pto_click = new Ponto4D(x_mouse, y_mouse);
+                bool selecionou = false;
 
                 for (var i = 0; i < objetosLista.Count; i++)
                 {
@@ -197,11 +205,15 @@ namespace gcgcg
                         {
                             Console.WriteLine("Dentro Poligono (objeto novo selecionado)" + objetosLista[i].getRotulo());
                             objetoSelecionado = objetosLista[i];
+                            selecionou = true;
                             break;
                         }
                     }
                 }
-                
+
+                if (!selecionou)
+                    objetoSelecionado = null;
+
             }
             else if (e.Key == Key.M)
             {
@@ -229,24 +241,17 @@ namespace gcgcg
             else if (e.Key == Key.PageUp)
                 objetoSelecionado.EscalaXYZ(0.8, 0.8, 0.8);
             else if (e.Key == Key.Home)
-            {
-                
-            }
+                objetoSelecionado.EscalaXYZBBox(0.8, 0.8, 0.8);
             else if (e.Key == Key.End)
-            {
-            }
+                objetoSelecionado.EscalaXYZBBox(1.2, 1.2, 1.2);
             else if (e.Key == Key.Number1)
-            {
-            }
+                objetoSelecionado.rotacaoOrigem(10);
             else if (e.Key == Key.Number2)
-            {
-            }
+                objetoSelecionado.rotacaoOrigem(-10);
             else if (e.Key == Key.Number3)
-            {
-            }
+                objetoSelecionado.rotacaoBBox(10);
             else if (e.Key == Key.Number4)
-            {
-            }
+                objetoSelecionado.rotacaoBBox(-10);
             else if (e.Key == Key.R)
             {
                 objetoSelecionado.ObjetoCor.CorR = 255;
@@ -274,7 +279,7 @@ namespace gcgcg
             }
             else if (e.Key == Key.D)
             {
-                var index = GetIndexsVerticeMiasPertoMouse();
+                var index = GetIndexVerticeMaisPertoMouse();
                 if (index >= 0)
                     objetoSelecionado.PontosRemoverNoIndex(index);
             }
@@ -286,7 +291,7 @@ namespace gcgcg
                 }
                 else
                 {
-                    var index = GetIndexsVerticeMiasPertoMouse();
+                    var index = GetIndexVerticeMaisPertoMouse();
                     if (index >= 0)
                     {
                         vertice_movendo = objetoSelecionado.pontosLista[index];

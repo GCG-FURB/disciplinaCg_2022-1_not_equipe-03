@@ -51,29 +51,6 @@ namespace gcgcg
       }
       GL.PopMatrix();
     }
-    protected abstract void DesenharGeometria();
-    public void FilhoAdicionar(Objeto filho)
-    {
-      this.objetosLista.Add(filho);
-    }
-    public void FilhoRemover(Objeto filho)
-    {
-      this.objetosLista.Remove(filho);
-    }
-    
-    public void TranslacaoXYZ(double tx, double ty, double tz)
-    {
-      Transformacao4D t = new Transformacao4D();
-      t.AtribuirTranslacao(tx, ty, tz);
-      matriz = t.MultiplicarMatriz(matriz);
-    }
-    
-    public void EscalaXYZ(double sx, double sy, double sz)
-    {
-      Transformacao4D t = new Transformacao4D();
-      t.AtribuirEscala(sx, sy, sz);
-      matriz = t.MultiplicarMatriz(matriz);
-    }
     
     public void RotacaoEixo(double angulo)
     {
@@ -91,32 +68,94 @@ namespace gcgcg
       }
     }
     
-    public void Rotacao(double angulo)
+    protected abstract void DesenharGeometria();
+    public void FilhoAdicionar(Objeto filho)
     {
-      RotacaoEixo(angulo);
-      matriz = matrizTmpRotacao.MultiplicarMatriz(matriz);
+      this.objetosLista.Add(filho);
+    }
+    public void FilhoRemover(Objeto filho)
+    {
+      this.objetosLista.Remove(filho);
+    }
+    public List<Objeto> GetFilhos()
+    {
+      return this.objetosLista;
     }
     
-    public void RotacaoZBBox(double angulo)
+    public void TranslacaoXYZ(double tx, double ty, double tz)
     {
-      matrizGlobal.AtribuirIdentidade();
-      Ponto4D pontoPivo = bBox.obterCentro;
-
-      matrizTmpTranslacao.AtribuirTranslacao(-pontoPivo.X, -pontoPivo.Y, -pontoPivo.Z); // Inverter sinal
-      matrizGlobal = matrizTmpTranslacao.MultiplicarMatriz(matrizGlobal);
-
-      RotacaoEixo(angulo);
-      matrizGlobal = matrizTmpRotacao.MultiplicarMatriz(matrizGlobal);
-
-      matrizTmpTranslacaoInversa.AtribuirTranslacao(pontoPivo.X, pontoPivo.Y, pontoPivo.Z);
-      matrizGlobal = matrizTmpTranslacaoInversa.MultiplicarMatriz(matrizGlobal);
-
-      matriz = matriz.MultiplicarMatriz(matrizGlobal);
+      Transformacao4D t = new Transformacao4D();
+      t.AtribuirTranslacao(tx, ty, tz);
+      matriz = t.MultiplicarMatriz(matriz);
     }
     
+    public void EscalaXYZ(double sx, double sy, double sz)
+    {
+      Transformacao4D t = new Transformacao4D();
+      t.AtribuirEscala(sx, sy, sz);
+      matriz = t.MultiplicarMatriz(matriz);
+    }
+    
+    public void EscalaXYZBBox(double sx, double sy, double sz)
+    {
+      Transformacao4D t = new Transformacao4D();
+      Transformacao4D t1 = new Transformacao4D();
+      Transformacao4D t2 = new Transformacao4D();
+      Transformacao4D t3 = new Transformacao4D();
+      Ponto4D pto_centro = bBox.obterCentro;
+      
+      t1.AtribuirTranslacao(-pto_centro.X, -pto_centro.Y, -pto_centro.Z);
+      t = t1.MultiplicarMatriz(t);
+      
+      t2.AtribuirEscala(sx, sy, sz);
+      t = t2.MultiplicarMatriz(t);
+      
+      t3.AtribuirTranslacao(pto_centro.X, pto_centro.Y, pto_centro.Z);
+      t = t3.MultiplicarMatriz(t);
+
+      matriz = matriz.MultiplicarMatriz(t);
+    }
+
     public void AtribuirIdentidade()
     { 
       matriz.AtribuirIdentidade();
+    }
+    
+    
+    public void rotacaoOrigem(double angulo)
+    {
+      Transformacao4D matrizGeralTemporaria = new Transformacao4D();
+      Transformacao4D matrizRotacaoTemporaria = new Transformacao4D();
+
+      matrizGeralTemporaria.AtribuirIdentidade();
+
+      matrizRotacaoTemporaria.AtribuirRotacaoZ(Transformacao4D.DEG_TO_RAD * angulo);
+      matrizGeralTemporaria = matrizRotacaoTemporaria.MultiplicarMatriz(matrizGeralTemporaria);
+
+
+      matriz = matriz.MultiplicarMatriz(matrizGeralTemporaria);
+    }
+
+    public void rotacaoBBox(double angulo)
+    {
+      Transformacao4D matrizGeralTemporaria = new Transformacao4D();
+      Transformacao4D matrizRotacaoTemporaria = new Transformacao4D();
+      Transformacao4D matrizTranslacaoTemporaria2 = new Transformacao4D();
+      Transformacao4D matrizTranslacaoTemporaria = new Transformacao4D();
+      
+      matrizGeralTemporaria.AtribuirIdentidade();
+      Ponto4D pontoPivo = bBox.obterCentro;
+
+      matrizTranslacaoTemporaria.AtribuirTranslacao(-pontoPivo.X, -pontoPivo.Y, -pontoPivo.Z);
+      matrizGeralTemporaria = matrizTranslacaoTemporaria.MultiplicarMatriz(matrizGeralTemporaria);
+
+      matrizRotacaoTemporaria.AtribuirRotacaoZ(Transformacao4D.DEG_TO_RAD * angulo);
+      matrizGeralTemporaria = matrizRotacaoTemporaria.MultiplicarMatriz(matrizGeralTemporaria);
+
+      matrizTranslacaoTemporaria2.AtribuirTranslacao(pontoPivo.X, pontoPivo.Y, pontoPivo.Z);
+      matrizGeralTemporaria = matrizTranslacaoTemporaria2.MultiplicarMatriz(matrizGeralTemporaria);
+
+      matriz = matriz.MultiplicarMatriz(matrizGeralTemporaria);
     }
     
   }
