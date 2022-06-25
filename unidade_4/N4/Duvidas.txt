@@ -1,0 +1,3 @@
+- Transformacao nao esta aplicando sobre o cubo
+- Cores nao fazem sentido
+- chao nao aparece
