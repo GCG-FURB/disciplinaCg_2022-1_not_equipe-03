@@ -22,7 +22,7 @@ namespace gcgcg
       GL.Begin(base.PrimitivaTipo);
       foreach (Ponto4D pto in pontosLista)
       {
-        GL.Vertex2(pto.X, pto.Y);
+        GL.Vertex3(pto.X, pto.Y, 0);
       }
       GL.End();
     }

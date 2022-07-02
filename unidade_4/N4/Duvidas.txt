@@ -1,3 +1,6 @@
-- Transformacao nao esta aplicando sobre o cubo
-- Cores nao fazem sentido
-- chao nao aparece
+- Chao - OK
+- Movimentacao sem perspectiva - Setas - OK
+- Inicio - Fim - OK
+- Vidas (5 vidas, colisao -1) - OK
+- Camera perspectiva - Preciso de ajuda - mexer em cameraPrimeiraPessoa();
+- Movimentacao perspectiva - Preciso da camera

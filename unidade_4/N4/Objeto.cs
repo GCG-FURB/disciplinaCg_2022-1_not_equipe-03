@@ -59,5 +59,17 @@ namespace gcgcg
       matriz = t.MultiplicarMatriz(matriz);
     }
     
+    public void EscalaXYZ(double sx, double sy, double sz)
+    {
+      Transformacao4D t = new Transformacao4D();
+      t.AtribuirEscala(sx, sy, sz);
+      matriz = t.MultiplicarMatriz(matriz);
+    }
+    
+    public void AtribuirIdentidade()
+    { 
+      matriz.AtribuirIdentidade();
+    }
+    
   }
 }
