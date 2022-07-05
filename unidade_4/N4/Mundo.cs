@@ -47,19 +47,19 @@ namespace gcgcg
         int[][] map = new[]
         {
             new[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-            new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            new[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1 },
-            new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-            new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1 },
-            new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 },
-            new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 },
-            new[] { 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 1 },
-            new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 },
-            new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1 },
-            new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-            new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1 },
-            new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 5, 0, 1 },
-            new[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 },
+            new[] { 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+            new[] { 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1 },
+            new[] { 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1 },
+            new[] { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1 },
+            new[] { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1 },
+            new[] { 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1 },
+            new[] { 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1 },
+            new[] { 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1 },
+            new[] { 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1 },
+            new[] { 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1 },
+            new[] { 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1 },
+            new[] { 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1 },
+            new[] { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 5, 0, 1, 1 },
             new[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
         };
 
@@ -147,7 +147,7 @@ namespace gcgcg
             Console.WriteLine($"Voce possui {VIDAS} vidas!");
 
 
-            GL.ClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+            GL.ClearColor(0.35f, 0.9f, 1f, 1.0f);
         }
 
         protected void switch_color(Cubo cubo)
@@ -181,9 +181,9 @@ namespace gcgcg
             fovy = (float)Math.PI / 4;
             aspect = Width / (float)Height;
             near = 1.0f;
-            far = 500.0f;
-            eye = new Vector3(JOGADOR_X, 1, JOGADOR_Z);
-            at = new Vector3(JOGADOR_X, 1, JOGADOR_Z + 1);
+            far = 50.0f;
+            eye = new Vector3(JOGADOR_X*2, 4, (JOGADOR_Z*2) + 4);
+            at = new Vector3(JOGADOR_X*2, 0, JOGADOR_Z*2);
             up = new Vector3(0, 1, 0);
         }
 
@@ -250,7 +250,7 @@ namespace gcgcg
             if (VIDAS == 0)
             {
                 Console.WriteLine($"Voce Perdeu!!!!");
-                // TODO: Encerrar
+                Exit();
             }
         }
 
@@ -297,13 +297,18 @@ namespace gcgcg
         protected void ganhou()
         {
             Console.WriteLine($"Voce Ganhou!!!!");
-            // TODO: Encerrar
+            Exit();
         }
 
         protected override void OnKeyDown(OpenTK.Input.KeyboardKeyEventArgs e)
         {
             if (e.Key == Key.H)
                 Utilitario.AjudaTeclado();
+            else if (e.Key == Key.V)
+            {
+                Console.WriteLine(eye);
+                Console.WriteLine(at);
+            }
             else if (e.Key == Key.Left)
                 moverJogadorSemPerspectiva(true, JOGADOR_X - 1);
             else if (e.Key == Key.Right)
