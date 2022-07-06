@@ -1,5 +1,17 @@
 # Computação Gráfica
 
-Atividades desenvolvidas na disciplina de Computação Gráfica na FURB/DSC/BCC.  
+Trabalho Final: N4
+————————-
+Labirinto 3D Dinâmico
 
-Favor utilizar as respectivas pastas para postar os trabalhos de cada unidade.  
+Nota: 10,0
+
+## Avaliação final
+
+Positivo:
+- seguiram as definições do trabalho usando o código das atividades anterior.
+- usaram transformações 3D.
+- usaram a câmera 3D, uma geral e outra no personagem.
+
+Negativo:
+- usaram a mesma thread do UpdateFrame
